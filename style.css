@@ -1,0 +1,60 @@
+body {
+    background-image: url("Images/airport-terminal-min.jpg");
+    background-color: lightgray;
+    background-size: 1920px 1500px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+contain.flex-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+contain.frame-container iframe {
+    margin-right: 10px;
+}
+p {
+    height: fit-content;
+    color: rgb(151, 30, 30);
+    background-color: rgba(234, 206, 206, 0.7);
+}
+
+/* Navbar but buttons instead */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    border: none;
+}
+
+
+button {
+    color: rgb(49, 49, 224);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover:not(.active) {
+    background-color: #ddd;
+    transition: background-color 0.5s ease;
+}
+
+button.active {
+    background-color: #5a95d4;
+    color: black;
+    border: 1px solid blue;
+    transform: translateY(1.5px);
+}
+
+iframe {
+    border: none;
+}

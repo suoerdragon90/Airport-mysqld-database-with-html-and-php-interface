@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="256" height="256" style="background: black;">
+        <script>
+            let ctx = canvas.getContext("2d");
+            let snake = [[8, 8]], apple = [4, 4], [dx, dy] = [0, 0];
+            let running = true; // Variable to control game state
+            let score = 0; // Initialize score to zero
+
+            // Function to stop the game
+            function stopGame() {
+                running = false;
+            }
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                    event.preventDefault();
+                } else if (event.key === 'Escape') { // Listen for the Escape key
+                    stopGame();
+                }
+                if (running == false) {
+                    if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                        running = true;
+                        snake = [[8, 8]]; // Reset snake length to 1
+                    }
+                }
+            });
+
+            onkeydown = ({ key }) => [dx, dy] =
+                {
+                    [key]: [dx, dy], ArrowRight: [dx || 1, 0], ArrowLeft: [dx || -1, 0],
+                    ArrowDown: [0, dy || 1], ArrowUp: [0, dy || -1]
+                }[key];
+            setInterval(() => {
+                if (!running) return; // If game is stopped, exit the loop
+
+                snake.unshift([(snake[0][0] + dx) & 15, (snake[0][1] + dy) & 15]);
+                if ("" + snake[0] == apple) {
+                    with (Math) do apple = [floor(random() * 16), floor(random() * 16)];
+                    while (snake.some(seg => "" + seg == apple));
+                    score++; // Increase score by 1 when the snake eats an apple
+                } else if (snake.slice(1).some(seg => "" + seg == snake[0]) || snake.some((seg, index) => index && "" + seg == "" + snake[0])) {
+                    // If the snake hits itself, reset the score to zero
+                    score = 0;
+                    running = false; // Stop the game
+                } else snake.pop();
+                ctx.clearRect(0, 0, 256, 256);
+                ctx.fillStyle = "red";
+                ctx.fillRect(apple[0] * 16, apple[1] * 16, 16, 16);
+                ctx.fillStyle = "blue";
+                snake.forEach(([x, y]) => ctx.fillRect(x * 16, y * 16, 16, 16));
+                // Display score
+                ctx.fillStyle = "white";
+                ctx.font = "16px Arial";
+                ctx.fillText("Score: " + score, 10, 20);
+            }, 125);
+        </script>
+</body>
+
+</html>

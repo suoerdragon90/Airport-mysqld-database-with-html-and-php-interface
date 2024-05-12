@@ -1,0 +1,65 @@
+CREATE TABLE airport (
+    Airport_code INT PRIMARY KEY NOT NULL,
+    Airport_name VARCHAR(20) NOT NULL,
+    City VARCHAR(20) NOT NULL,
+    State VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE airline (
+    Airline_code INT PRIMARY KEY NOT NULL,
+    Name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE flight (
+    Flight_number INT PRIMARY KEY NOT NULL,
+    weekdays VARCHAR(40),
+    Airline_code INT,
+    FOREIGN KEY (Airline_code) REFERENCES Airline(Airline_code)
+);
+
+CREATE TABLE flight_leg (
+    Leg_number INT PRIMARY KEY NOT NULL,
+    scheduled_Departure_time TIME NOT NULL,
+    scheduled_Arrival_time TIME NOT NULL,
+    Departure_Airport INT NOT NULL,
+    Flight_number INT NOT NULL,
+    Arrival_Airport INT NOT NULL,
+    FOREIGN KEY (Departure_Airport) REFERENCES Airport(Airport_code),
+    FOREIGN KEY (Flight_number) REFERENCES Flight(Flight_number),
+    FOREIGN KEY (Arrival_Airport) REFERENCES Airport(Airport_code)
+);
+
+CREATE TABLE airplane_type (
+    Airplane_Type_name INT PRIMARY KEY NOT NULL,
+    Manufacturing_name VARCHAR(20) NOT NULL,
+    Max_num_of_seats INT NOT NULL
+);
+
+CREATE TABLE airplane (
+    Airplane_id INT PRIMARY KEY NOT NULL,
+    Total_num_of_seats INT NOT NULL,
+    Airplane_type_id INT,
+    FOREIGN KEY (Airplane_type_id) REFERENCES Airplane_type(Airplane_Type_name)
+);
+
+CREATE TABLE leg_instance (
+    Leg_instance_id INT PRIMARY KEY NOT NULL,
+    Date DATE NOT NULL,
+    Departure_time TIME NOT NULL,
+    Arrival_Airport INT NOT NULL,
+    Arrival_time TIME NOT NULL,
+    Leg_number INT NOT NULL,
+    Airplane_id INT NOT NULL,
+    Number_of_available_seats INT NOT NULL,
+    FOREIGN KEY (Leg_number) REFERENCES Flight_leg(Leg_number),
+    FOREIGN KEY (Airplane_id) REFERENCES Airplane(Airplane_id)
+);
+
+CREATE TABLE reservation (
+    Reservation_id INT NOT NULL,
+    customer_name VARCHAR(20) NOT NULL,
+    Phone VARCHAR(20) NOT NULL,
+    Seat_number INT NOT NULL,
+    Leg_instance_id INT,
+    FOREIGN KEY (Leg_instance_id) REFERENCES Leg_instance(Leg_instance_id)
+);
